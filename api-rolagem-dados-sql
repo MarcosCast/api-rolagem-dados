@@ -1,0 +1,49 @@
+-- criando a sequencia das tabelas
+CREATE SEQUENCE user_inid_users_seq START 1 INCREMENT 1;
+
+CREATE SEQUENCE dice_inid_diceTypes_seq START 1 INCREMENT 1;
+
+CREATE SEQUENCE roll_inid_rolls_seq START 1 INCREMENT 1;
+
+-- agora criar as tabelas
+CREATE TABLE users (
+    user_inid_users UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_vcnm_username VARCHAR(50) NOT NULL,
+    user_vcnm_platform VARCHAR(20) NOT NULL,
+    user_tstm_createdAt TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE dice_types (
+    dice_inid_diceTypes INT NOT NULL DEFAULT nextval('dice_inid_diceTypes_seq'),
+    dice_vcnm_name VARCHAR(10) NOT NULL UNIQUE,
+    dice_innb_sides INT NOT NULL,
+    PRIMARY KEY (dice_inid_diceTypes)
+);
+
+CREATE TABLE rolls (
+    roll_inid_rolls INT NOT NULL DEFAULT nextval('roll_inid_rolls_seq'),
+    roll_frid_user UUID NOT NULL,
+    roll_frid_dice INT NOT NULL,
+    roll_innb_result INT NOT NULL,
+    roll_tstm_rolledAt TIMESTAMP DEFAULT NOW(),
+    PRIMARY KEY (roll_inid_rolls),
+    CONSTRAINT fk_roll_user FOREIGN KEY (roll_frid_user) REFERENCES users(user_inid_users) ON DELETE CASCADE,
+    CONSTRAINT fk_roll_dice FOREIGN KEY (roll_frid_dice) REFERENCES dice_types(dice_inid_diceTypes) ON DELETE RESTRICT
+);
+
+SELECT * FROM dice_types;
+SELECT * FROM rolls;
+
+SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+
+-- n gostei do mnemonico, quero outro 
+ALTER TABLE dice_types RENAME COLUMN dice_innb_sides TO dice_invl_sides;
+
+ALTER TABLE rolls RENAME COLUMN roll_innb_result TO roll_invl_result;
+ALTER TABLE rolls RENAME COLUMN roll_frid_user TO roll_inid_user;
+ALTER TABLE rolls RENAME COLUMN roll_frid_dice TO roll_inid_dice;
+
+
+
+
+
