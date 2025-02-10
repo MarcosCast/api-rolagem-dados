@@ -5,9 +5,11 @@ import { RedisModule } from './redis/redis.module';
 import { DiceModule } from './dice/dice.module';
 
 @Module({
+
   imports: [RedisModule, DiceModule],
   controllers: [AppController],
   providers: [AppService],
+  
 })
 
 export class AppModule {}
