@@ -6,17 +6,23 @@ describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
+
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
       providers: [AppService],
+
     }).compile();
 
     appController = app.get<AppController>(AppController);
+
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+
+    it('should return "API está rodando!"', () => {
+
+      expect(appController.getHello()).toBe('API está rodando!');
+      
     });
   });
 });
